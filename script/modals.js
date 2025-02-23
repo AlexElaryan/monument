@@ -103,10 +103,12 @@ function modalCloseBtn(el) {
     document.body.style.overflow = 'auto';
 }
 
-bodyFilterB.onclick = () => {
-    modal.forEach(el => {
-        modalCloseBtn(el);
-    });
+if (bodyFilterB) {
+    bodyFilterB.onclick = () => {
+        modal.forEach(el => {
+            modalCloseBtn(el);
+        });
+    }
 }
 
 modalClose.forEach(el => {
