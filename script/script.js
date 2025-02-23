@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             el: ".intro-swiper-pagination",
             clickable: true,
         },
-        slidesPerView: 1.7,
+        slidesPerView: 1,
         spaceBetween: 15,
         breakpoints: {
             720: {
@@ -62,62 +62,4 @@ plus.forEach((btn, ind) => {
         }
     }
 })
-const headnavLi = document.querySelectorAll('.head-filter li');
-const headCont = document.querySelector('.head-cont');
-const headFilterItems = document.querySelectorAll('.head-filter__block > div');
-const bodyFilter = document.querySelector('.head-cont__body-filter');
 
-bodyFilter.onclick = (event) => {
-    closeHeadCont();
-}
-
-
-headnavLi.forEach((el, ind) => {
-    el.onclick = () => {
-        openHeadCont(ind); 
-    }
-});
-
-function openHeadCont(index) {
-    headFilterItems.forEach(item => item.style.display = 'none');
-    headnavLi.forEach(item => item.classList.remove('active-filter'));
-
-    document.body.style.paddingTop = '186px';
-    bodyFilter.style.display = 'block';
-    headFilterItems[index].style.display = 'flex';
-    headnavLi[index].classList.add('active-filter');
-    headCont.classList.add('head-cont__open');
-}
-
-function closeHeadCont() {
-    headFilterItems.forEach(item => item.style.display = 'none');
-    headnavLi.forEach(item => item.classList.remove('active-filter'));
-    headCont.classList.remove('head-cont__open');
-    bodyFilter.style.display = 'none';
-    document.body.style.paddingTop = '0px';
-
-}
-
-
-const burgerMenuBtn = document.querySelector('.burgerMenu-btn');
-const burgerMenuClose = document.querySelector('.burgerMenu-close');
-const burgerMenu = document.querySelector('.burger-menu');
-
-burgerMenuBtn.onclick = () => {
-    burgerMenu.style.display = 'flex';
-    burgerMenuClose.style.display = 'block';
-    burgerMenuBtn.style.display = 'none';
-    document.body.style.overflow = 'hidden';
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-}
-
-burgerMenuClose.onclick = () => {
-    burgerMenu.style.display = 'none';
-    burgerMenuClose.style.display = 'none';
-    burgerMenuBtn.style.display = 'block';
-    document.body.style.overflow = 'auto';
-
-}
