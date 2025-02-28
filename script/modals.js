@@ -86,33 +86,66 @@ function closeHeadCont() {
     document.body.style.paddingTop = '0px';
 
 }
-
-const modal = document.querySelectorAll('.modal');
-const modalClose = document.querySelectorAll('.modal-close');
+const modals = document.querySelectorAll('.modal');
+const modalCloses = document.querySelectorAll('.modal-close');
+const modalCloseType2 = document.querySelectorAll('.modal-close-type2');
 const bodyFilterB = document.querySelector('.for-body_filter');
 
 function modalOpenBtn(el) {
     el.classList.add('active-modal');
-    bodyFilterB.classList.add('for-body_filter-active');
-    document.body.style.overflow = 'hidden';
+    bodyFilterB?.classList.add('for-body_filter-active');
+    lockScroll();
+}
+
+function modal2OpenBtn(el) {
+    el.classList.add('modal-type2-active');
+    el.firstElementChild?.classList.add('active-modal');
+    lockScroll();
 }
 
 function modalCloseBtn(el) {
     el.classList.remove('active-modal');
-    bodyFilterB.classList.remove('for-body_filter-active');
+    checkModals();
+}
+
+function modal2CloseBtn(el) {
+    el.classList.remove('modal-type2-active');
+    el.firstElementChild?.classList.remove('active-modal');
+    checkModals();
+}
+
+function lockScroll() {
+    document.body.style.overflow = 'hidden';
+}
+
+function unlockScroll() {
     document.body.style.overflow = 'auto';
 }
 
-if (bodyFilterB) {
-    bodyFilterB.onclick = () => {
-        modal.forEach(el => {
-            modalCloseBtn(el);
-        });
+function checkModals() {
+    const anyModalOpen = [...modals].some(modal => modal.classList.contains('active-modal') || modal.classList.contains('modal-type2-active'));
+    if (!anyModalOpen) {
+        bodyFilterB?.classList.remove('for-body_filter-active');
+        unlockScroll();
     }
 }
 
-modalClose.forEach(el => {
-    el.onclick = (event) => {
+// Закрытие по клику на затемнение
+if (bodyFilterB) {
+    bodyFilterB.onclick = () => {
+        modals.forEach(modal => modalCloseBtn(modal));
+    };
+}
+
+// Обработчики закрытия модалок
+modalCloses.forEach(btn => {
+    btn.onclick = (event) => {
         modalCloseBtn(event.target.closest('.modal'));
-    }
+    };
+});
+
+modalCloseType2.forEach(btn => {
+    btn.onclick = (event) => {
+        modal2CloseBtn(event.target.closest('.modal-type2'));
+    };
 });
