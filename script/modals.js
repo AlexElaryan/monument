@@ -50,42 +50,113 @@ contactBodyFilter.onclick = () => {
     document.body.style.overflow = 'auto';
 }
 
-
 const headnavLi = document.querySelectorAll('.head-filter li');
 const headCont = document.querySelector('.head-cont');
 const headFilterItems = document.querySelectorAll('.head-filter__block > div');
 const bodyFilter = document.querySelector('.head-cont__body-filter');
 
-bodyFilter.onclick = (event) => {
-    closeHeadCont();
+const searchBlock = document.querySelector('.cta__search');
+const search = document.querySelector('.cta__search > input');
+const searchClear = document.querySelector('.search-clear');
+
+const searchBtn = document.querySelector('.search-btn');
+
+
+function openSearchCont() {
+    headCont.classList.add('head-cont__open-search');
+    document.body.classList.add('forBodyPT');
+    searchBlock.classList.add('cta__search-active');
+    bodyFilter.style.display = 'block';
 }
 
+function closeSearchCont() {
+    headCont.classList.remove('head-cont__open-search');
+    searchBlock.classList.remove('cta__search-active');
+    document.body.classList.remove('forBodyPT');
+    bodyFilter.style.display = 'none';
+}
 
-headnavLi.forEach((el, ind) => {
-    el.onclick = () => {
-        openHeadCont(ind);
+function openSearchContMob() {
+    headCont.classList.add('head-cont__open-search-mob');
+    document.body.classList.add('forBodyPT-mob');
+    searchBlock.classList.add('cta__search-active-mob');
+    bodyFilter.style.display = 'block';
+}
+
+searchBtn.onclick = () => {
+    openSearchContMob();
+}
+
+function handleSearchInput() {
+    if (search && window.innerWidth >= 1001) {
+        search.oninput = openSearchCont;
+    } else if (search) {
+        search.oninput = null;
+    }
+}
+
+handleSearchInput();
+window.addEventListener("resize", handleSearchInput);
+
+if (searchClear && window.innerWidth >= 1001) {
+    searchClear.onclick = () => {
+        search.value = '';
+        closeSearchCont();
+    };
+} else {
+    searchClear.onclick = () => {
+        search.value = '';
+        headCont.classList.remove('head-cont__open-search-mob');
+        document.body.classList.remove('forBodyPT-mob');
+        searchBlock.classList.remove('cta__search-active-mob');
+        bodyFilter.style.display = 'none';
+    };
+}
+
+// Закрытие при клике вне поиска
+document.addEventListener('click', (event) => {
+    if (!searchBlock.contains(event.target) && !search.contains(event.target) && !document.body.classList.contains('forBodyPT')) {
+        closeSearchCont();
     }
 });
 
+if (bodyFilter) {
+    bodyFilter.addEventListener("click", closeHeadCont);
+    bodyFilter.addEventListener("click", closeSearchCont);
+}
+
+if (headnavLi.length && headFilterItems.length) {
+    headnavLi.forEach((el, ind) => {
+        el.onclick = () => openHeadCont(ind);
+    });
+}
+
 function openHeadCont(index) {
-    headFilterItems.forEach(item => item.style.display = 'none');
+    if (!bodyFilter) return;
+
+    headFilterItems.forEach(item => (item.style.display = 'none'));
     headnavLi.forEach(item => item.classList.remove('active-filter'));
 
-    document.body.style.paddingTop = '186px';
     bodyFilter.style.display = 'block';
     headFilterItems[index].style.display = 'flex';
     headnavLi[index].classList.add('active-filter');
-    headCont.classList.add('head-cont__open');
+    document.body.classList.add('forBodyPT');
+    headCont.classList.add('head-cont__open');    
 }
 
 function closeHeadCont() {
-    headFilterItems.forEach(item => item.style.display = 'none');
+    if (!bodyFilter) return;
+
+    headFilterItems.forEach(item => (item.style.display = 'none'));
     headnavLi.forEach(item => item.classList.remove('active-filter'));
+
     headCont.classList.remove('head-cont__open');
     bodyFilter.style.display = 'none';
-    document.body.style.paddingTop = '0px';
-
+    document.body.classList.remove('forBodyPT');
 }
+
+// modal start
+
 const modals = document.querySelectorAll('.modal');
 const modalCloses = document.querySelectorAll('.modal-close');
 const modalCloseType2 = document.querySelectorAll('.modal-close-type2');

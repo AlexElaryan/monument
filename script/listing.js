@@ -8,6 +8,9 @@ new Swiper(".listing-top_swiper", {
     slidesPerView: "auto",
     spaceBetween: 8,
     breakpoints: {
+        1001: {
+            slidesPerView: 6,
+        },
         1420: {
             slidesPerView: 7.6,
             spaceBetween: 15,
@@ -20,11 +23,14 @@ new Swiper(".listing-content-swiper", {
     navigation: {
         nextEl: ".listing-content-swiper-next",
     },
-    slidesPerView: 2.7,
+    slidesPerView: 2.3,
     spaceBetween: 8,
     breakpoints: {
         720: {
             slidesPerView: 5.4,
+        },
+        1001: {
+            slidesPerView: 4,
         },
         1420: {
             slidesPerView: 5,
